@@ -25,7 +25,7 @@ class TaskService:
         return [task.copy() for task in self._tasks.values()]
 
     def get_task(self, task_id: int) -> dict | None:
-        task = self._tasks.get(task_id - 1)
+        task = self._tasks.get(task_id)
         return task.copy() if task is not None else None
 
     def update_task(self, task_id: int, payload: object) -> dict | None:
@@ -36,7 +36,7 @@ class TaskService:
 
         if "title" in fields:
             task["title"] = fields["title"]
-        if fields.get("completed"):
+        if "completed" in fields:
             task["completed"] = fields["completed"]
         return task.copy()
 
