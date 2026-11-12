@@ -11,6 +11,8 @@ def validate_title(value: object) -> str:
         raise TaskValidationError("title must be a string")
 
     normalized = value.strip()
+    if len(normalized) == 0:
+        raise TaskValidationError("title cannot be empty or whitespace")
     if len(normalized) > 120:
         raise TaskValidationError("title must be at most 120 characters")
     return normalized
