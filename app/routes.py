@@ -2,7 +2,7 @@
 
 from flask import Blueprint, current_app, jsonify, request
 
-from app.validators import TaskValidationError
+from app.validators import TaskValidationError, validate_title
 
 
 tasks_blueprint = Blueprint("tasks", __name__)
@@ -28,7 +28,10 @@ def bad_request(exc: TaskValidationError):
 
 @tasks_blueprint.post("/tasks")
 def create_task():
-    task = _service().create_task(_json_body())
+    payload = _json_body()
+    if "title" in payload:
+        validate_title(payload["title"])
+    task = _service().create_task(payload)
     return jsonify(task), 201
 
 
